@@ -24,7 +24,7 @@ Yapily.Client/
 ├── YapilyClient.cs           # Sample Yapily SDK usage flow
 └── Yapily.Core.SDK/
     ├── Models/               # Refactored model files
-    ├── Services/             # YapilyCoreSDK and helpers
+    ├── SDK / YapilyCoreSDK             # YapilyCoreSDK
     └── Yapily.Core.SDK.csproj
 ```
 
@@ -115,13 +115,6 @@ The SDK is designed to be easily extended:
 - Add new endpoints to `YapilyCoreSDK.cs`
 - Add corresponding models under `Models/`
 - Reuse base classes such as `MetaBase`, `BalanceAmountBase`, and `TransactionBase`
-
----
-
-## License
-
-This project is licensed under the **MIT License**.  
-See the [LICENSE](LICENSE) file for details.
 
 ---
 
