@@ -129,4 +129,4 @@ If you’d like to improve the SDK, add tests, or support additional Yapily endp
 
 - [Yapily Developer Docs](https://docs.yapily.com/)
 - [Open Banking Overview](https://www.openbanking.org.uk/)
-- Author: [Your Name or Company]
+- Author: Hafiz Muhammad Asad
