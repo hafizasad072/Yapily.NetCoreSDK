@@ -1,6 +1,4 @@
-﻿using Yapily.Core.SDK.SDK.Interfaces;
-
-namespace Yapily.Core.SDK.SDK.Transactions
+﻿namespace Yapily.Core.SDK.SDK.Transactions
 {
     public class TransactionService : YapilyBaseService, ITransactionService
     {

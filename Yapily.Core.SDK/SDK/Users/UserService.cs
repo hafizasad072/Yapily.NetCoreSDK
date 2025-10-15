@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Yapily.BO.Models;
-using Yapily.Core.SDK.SDK.Interfaces;
 
 namespace Yapily.Core.SDK.SDK.Users
 {
@@ -13,7 +12,7 @@ namespace Yapily.Core.SDK.SDK.Users
         public async Task<User> CreateUserAsync(string applicationUserId)
         {
             var url = $"{_baseUrl}/users";
-            var body = new { applicationUserId };
+            var body = new { applicationUserId = applicationUserId };
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
                 Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")

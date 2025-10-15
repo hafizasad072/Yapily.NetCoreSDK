@@ -1,20 +1,22 @@
 ﻿using System.Web;
+using Yapily.Core.SDK;
 using Yapily.Core.SDK.SDK.Account;
 using Yapily.Core.SDK.SDK.Consent;
 using Yapily.Core.SDK.SDK.Institutions;
-using Yapily.Core.SDK.SDK.Interfaces;
 using Yapily.Core.SDK.SDK.Transactions;
 using Yapily.Core.SDK.SDK.Users;
 
 public class YapilyClient
 {
-    public static async Task RunAsync(string CALLBACK_URL)
+    public static async Task RunAsync()
     {
         IUserService userService = new UserService();
         IAccountsService accountService = new AccountsService();
         IConsentService consentService = new ConsentService();
         IInstitutionService institutionService = new InstitutionService();
         ITransactionService transactionService = new TransactionService();
+
+        string CALLBACK_URL = YapilyConfig.CallBackURL;
 
         // STEP 1: Create Yapily User (maps to your ERP user)
         var user = await userService.CreateUserAsync(null);

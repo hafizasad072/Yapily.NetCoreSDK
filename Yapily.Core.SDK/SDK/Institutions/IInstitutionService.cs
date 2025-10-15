@@ -1,6 +1,6 @@
 ﻿using Yapily.BO.Models;
 
-namespace Yapily.Core.SDK.SDK.Interfaces
+namespace Yapily.Core.SDK.SDK.Institutions
 {
     public interface IInstitutionService
     {

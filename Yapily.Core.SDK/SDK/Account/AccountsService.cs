@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Yapily.BO.Models;
-using Yapily.Core.SDK.SDK.Interfaces;
 
 namespace Yapily.Core.SDK.SDK.Account
 {

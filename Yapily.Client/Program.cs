@@ -20,9 +20,10 @@ namespace Yapily.Client
             Console.WriteLine($"\nAPP_KEY: {APP_KEY}");
             Console.WriteLine($"CALLBACK_URL: {CALLBACK_URL}");
 
-            YapilyConfig.Initialize(APP_KEY, APP_SECRET);
+            string baseURL = "https://api.yapily.com";
+            YapilyConfig.Initialize(APP_KEY, APP_SECRET, baseURL, CALLBACK_URL);
 
-            await YapilyClient.RunAsync(CALLBACK_URL);
+            await YapilyClient.RunAsync();
 
             Console.ReadLine();
         }
