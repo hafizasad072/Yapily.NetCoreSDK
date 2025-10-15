@@ -1,5 +1,5 @@
-﻿
-using System.Text;
+﻿using System.Text;
+using Yapily.Core.SDK;
 
 namespace Yapily.Client
 {
@@ -20,7 +20,9 @@ namespace Yapily.Client
             Console.WriteLine($"\nAPP_KEY: {APP_KEY}");
             Console.WriteLine($"CALLBACK_URL: {CALLBACK_URL}");
 
-            await YapilyClient.RunAsync(APP_KEY, APP_SECRET, CALLBACK_URL);
+            YapilyConfig.Initialize(APP_KEY, APP_SECRET);
+
+            await YapilyClient.RunAsync(CALLBACK_URL);
 
             Console.ReadLine();
         }

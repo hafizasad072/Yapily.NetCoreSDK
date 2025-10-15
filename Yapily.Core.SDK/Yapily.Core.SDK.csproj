@@ -12,4 +12,12 @@
     <None Remove="Models\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="SDK\YapilyCoreSDK.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yapily.BO\Yapily.BO.csproj" />
+  </ItemGroup>
+
 </Project>
