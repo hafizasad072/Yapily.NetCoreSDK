@@ -1,4 +1,4 @@
-namespace Yapily.Core.SDK.Models
+namespace Yapily.BO.Models
 {
     public class InstitutionCountry
     {

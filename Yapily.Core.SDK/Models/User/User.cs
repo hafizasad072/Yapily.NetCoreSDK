@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Yapily.Core.SDK.Models
+namespace Yapily.BO.Models
 {
     public class User
     {

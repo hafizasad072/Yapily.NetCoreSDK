@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Yapily.Core.SDK.Models.Base;
-using Yapily.Core.SDK.Models.Common;
+using Yapily.BO.Models.Base;
+using Yapily.BO.Models.Common;
 
-namespace Yapily.Core.SDK.Models
+namespace Yapily.BO.Models
 {
     public class Institution
     {

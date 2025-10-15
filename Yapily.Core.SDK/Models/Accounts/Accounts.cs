@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Yapily.Core.SDK.Models.Base;
+using Yapily.BO.Models.Base;
 
-namespace Yapily.Core.SDK.Models
+namespace Yapily.BO.Models
 {
     public class Accounts
     {
@@ -44,5 +44,5 @@ namespace Yapily.Core.SDK.Models
         public List<object> CreditLines { get; set; }
     }
 
-    public class BalanceAmount : Yapily.Core.SDK.Models.Base.AmountBase { }
+    public class BalanceAmount : Yapily.BO.Models.Base.AmountBase { }
 }

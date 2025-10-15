@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Yapily.Core.SDK.Models.Base;
+using Yapily.BO.Models.Base;
 
-namespace Yapily.Core.SDK.Models
+namespace Yapily.BO.Models
 {
     public class BalanceVM
     {

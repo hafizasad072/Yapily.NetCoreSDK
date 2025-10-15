@@ -1,4 +1,4 @@
-namespace Yapily.Core.SDK.Models.Common
+namespace Yapily.BO.Models.Common
 {
     public class Country
     {

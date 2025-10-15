@@ -1,4 +1,4 @@
-namespace Yapily.Core.SDK.Models.Base
+namespace Yapily.BO.Models.Base
 {
     public class Meta
     {

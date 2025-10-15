@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yapily.Client", "Yapily.Cli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yapily.Core.SDK", "Yapily.Core.SDK\Yapily.Core.SDK.csproj", "{55F653D4-600B-457D-80EA-C93A4393550E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yapily.BO", "Yapily.BO\Yapily.BO.csproj", "{489B39F6-ABAE-4BEC-B773-441469C4CD90}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{55F653D4-600B-457D-80EA-C93A4393550E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F653D4-600B-457D-80EA-C93A4393550E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55F653D4-600B-457D-80EA-C93A4393550E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{489B39F6-ABAE-4BEC-B773-441469C4CD90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{489B39F6-ABAE-4BEC-B773-441469C4CD90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{489B39F6-ABAE-4BEC-B773-441469C4CD90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{489B39F6-ABAE-4BEC-B773-441469C4CD90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
