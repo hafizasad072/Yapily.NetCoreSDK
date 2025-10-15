@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\Institution.cs" />
-    <Compile Remove="Models\Models.cs" />
-    <Compile Remove="Models\Transaction.cs" />
+    <Compile Remove="Models\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="SDK\YapilyCoreSDK.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yapily.BO\Yapily.BO.csproj" />
   </ItemGroup>
 
 </Project>

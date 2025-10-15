@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Yapily.Core.SDK.Models;
+using Yapily.BO.Models;
 
 public class YapilyCoreSDK
 {
@@ -36,7 +36,7 @@ public class YapilyCoreSDK
     public async Task<User> CreateUserAsync(string applicationUserId)
     {
         var url = $"{_baseUrl}/users";
-        var body = new { applicationUserId = applicationUserId };
+        var body = new { applicationUserId };
         var req = new HttpRequestMessage(HttpMethod.Post, url)
         {
             Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
@@ -65,11 +65,11 @@ public class YapilyCoreSDK
         var url = $"{_baseUrl}/account-auth-requests";
         var body = new
         {
-            userUuid = userUuid,
-            institutionId = institutionId,
-            applicationUserId = applicationUserId,
+            userUuid,
+            institutionId,
+            applicationUserId,
             callback = callbackUrl,
-            oneTimeToken = oneTimeToken
+            oneTimeToken
         };
         var req = new HttpRequestMessage(HttpMethod.Post, url)
         {
@@ -138,7 +138,7 @@ public class YapilyCoreSDK
     }
 
     // 8. Get Transactions
-    public async Task<Yapily.Core.SDK.Models.Transaction> GetTransactionsAsync(
+    public async Task<Yapily.BO.Models.Transaction> GetTransactionsAsync(
         string consentId,
         string accountId,
         DateTime from,
@@ -149,7 +149,7 @@ public class YapilyCoreSDK
         var url = $"{_baseUrl}/accounts/{accountId}/transactions?from={Uri.EscapeDataString(fr)}&before={Uri.EscapeDataString(toS)}";
         var req = new HttpRequestMessage(HttpMethod.Get, url);
         req.Headers.Add("consent", consentId);
-        return await SendRequestAsync<Yapily.Core.SDK.Models.Transaction>(req);
+        return await SendRequestAsync<Yapily.BO.Models.Transaction>(req);
     }
 
     // 9. Refresh / Re-authorise (for redirect / hosted)

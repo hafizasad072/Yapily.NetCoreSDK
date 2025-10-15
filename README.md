@@ -26,13 +26,15 @@ This SDK enables you to easily integrate **Account Information Services (AIS)** 
 dotnet add package Yapily.Net.SDK
 ```
 
+```md
 ### 2️ Initialize Client
 
-```csharp
-var yapily = new YapilyClient(
-    appKey: "YOUR_APP_KEY",
-    appSecret: "YOUR_APP_SECRET"
-);
+When you start the console app, you’ll be prompted to enter your Yapily credentials:
+
+```bash
+Please enter App Key:
+Please enter App Secret:
+Please enter CALLBACK_URL (default: https://yourapi.com/api/yapily/callback):
 ```
 
 ### 3️ Create Yapily User
@@ -40,7 +42,7 @@ var yapily = new YapilyClient(
 Each of your ERP users must be registered as a Yapily “Application User”.
 
 ```csharp
-var user = await yapily.CreateUserAsync("erp_user_001");
+var user = await userService.CreateUserAsync(erp_user_001);
 Console.WriteLine($"Created Yapily User UUID: {user.Uuid}");
 ```
 
@@ -49,11 +51,11 @@ Console.WriteLine($"Created Yapily User UUID: {user.Uuid}");
 This will return a redirect URL for the user to connect their bank.
 
 ```csharp
-var auth = await yapily.CreateAccountAuthRequestAsync(
+var auth = await accountService.CreateAccountAuthRequestAsync(
     userUuid: user.Uuid,
     institutionId: "abnamro-nl",
     applicationUserId: "erp_user_001",
-    callbackUrl: "https://yourapi.com/api/yapily/callback"
+    callbackUrl: CALLBACK_URL
 );
 
 Console.WriteLine($"Redirect user to: {auth.AuthorisationUrl}");
@@ -68,17 +70,17 @@ GET /api/yapily/callback?consentId={consentId}
 ### 5️ Retrieve Bank Data
 
 ```csharp
-var consent = await yapily.GetConsentAsync(consentId);
-var accounts = await yapily.GetAccountsAsync(consentId);
+var consent = await consentService.GetConsentAsync(consentId);
+var accounts = await accountService.GetAccountsAsync(consentId);
 foreach (var acc in accounts)
 {
     Console.WriteLine($"{acc.Id}: {acc.Currency}");
 }
 
-var balance = await yapily.GetAccountBalancesAsync(consentId, accounts[0].Id);
+var balance = await accountService.GetAccountBalancesAsync(consentId, accounts[0].Id);
 Console.WriteLine($"Balance: {balance[0].Amount.Amount} {balance[0].Amount.Currency}");
 
-var txs = await yapily.GetTransactionsAsync(consentId, accounts[0].Id, DateTime.UtcNow.AddDays(-30), DateTime.UtcNow);
+var txs = await transactionService.GetTransactionsAsync(consentId, accounts[0].Id, DateTime.UtcNow.AddDays(-30), DateTime.UtcNow);
 foreach (var tx in txs)
 {
     Console.WriteLine($"{tx.BookingDateTime:d} {tx.TransactionInformation} {tx.Amount.Amount}");

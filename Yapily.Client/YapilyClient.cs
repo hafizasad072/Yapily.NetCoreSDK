@@ -1,20 +1,32 @@
 ﻿using System.Web;
+using Yapily.Core.SDK;
+using Yapily.Core.SDK.SDK.Account;
+using Yapily.Core.SDK.SDK.Consent;
+using Yapily.Core.SDK.SDK.Institutions;
+using Yapily.Core.SDK.SDK.Transactions;
+using Yapily.Core.SDK.SDK.Users;
 
 public class YapilyClient
 {
-    public static async Task RunAsync(string APP_KEY, string APP_SECRET, string CALLBACK_URL)
+    public static async Task RunAsync()
     {
-        var client = new YapilyCoreSDK(APP_KEY, APP_SECRET);
+        IUserService userService = new UserService();
+        IAccountsService accountService = new AccountsService();
+        IConsentService consentService = new ConsentService();
+        IInstitutionService institutionService = new InstitutionService();
+        ITransactionService transactionService = new TransactionService();
+
+        string CALLBACK_URL = YapilyConfig.CallBackURL;
 
         // STEP 1: Create Yapily User (maps to your ERP user)
-        var user = await client.CreateUserAsync(null);
+        var user = await userService.CreateUserAsync(null);
         Console.WriteLine($" Created Yapily User: {user.Uuid}");
 
         // ---------------------------------------------
         // OPTION 1 — Hosted Page (Recommended)
         // ---------------------------------------------
         Console.WriteLine(" Using Hosted Consent Page...");
-        var hostedAuth = await client.CreateAccountAuthRequestAsync(
+        var hostedAuth = await accountService.CreateAccountAuthRequestAsync(
             userUuid: user.Uuid,
             institutionId: "modelo-sandbox", // choose one if you already know
             applicationUserId: null,
@@ -29,7 +41,7 @@ public class YapilyClient
         string consentId = hostedAuth.Data.Id;
 
         // STEP 2: Retrieve consent details
-        var consent = await client.GetConsentAsync(consentId); // same  hostedAuth.Data.Id
+        var consent = await consentService.GetConsentAsync(consentId); // same  hostedAuth.Data.Id
         Console.WriteLine($"Consent status: {consent.Data.Status}");
 
         Console.WriteLine("Paste the full callback URL after redirection:");
@@ -54,7 +66,7 @@ public class YapilyClient
         Console.WriteLine($"Extracted consentId: {consentToken}");
 
         // STEP 3: Fetch accounts
-        var accounts = await client.GetAccountsAsync(consentToken);
+        var accounts = await accountService.GetAccountsAsync(consentToken);
         foreach (var acc in accounts.Data)
         {
             Console.WriteLine($" Account {acc.Id} - {acc.Currency}");
@@ -62,10 +74,10 @@ public class YapilyClient
 
         // STEP 4: Fetch balance & transactions for first account
         var accId = accounts.Data[0].Id;
-        var balances = await client.GetAccountBalancesAsync(consentToken, accId);
+        var balances = await accountService.GetAccountBalancesAsync(consentToken, accId);
         Console.WriteLine($" Balance: {balances.Data.Balances[0].BalanceAmount.Amount} {balances.Data.Balances[0].BalanceAmount.Currency}");
 
-        var txs = await client.GetTransactionsAsync(
+        var txs = await transactionService.GetTransactionsAsync(
             consentToken,
             accId,
             DateTime.UtcNow.AddDays(-30),
@@ -81,7 +93,7 @@ public class YapilyClient
         // OPTION 2 — Get institutions list yourself
         // ---------------------------------------------
         Console.WriteLine("\n Listing institutions manually...");
-        var institutions = await client.GetInstitutionsAsync("NL");
+        var institutions = await institutionService.GetInstitutionsAsync("NL");
 
         foreach (var bank in institutions.Data)
         {
@@ -91,7 +103,7 @@ public class YapilyClient
         // then choose one, and create an auth request for it
         string selectedInstitutionId = institutions.Data[0].Id;
 
-        var authRequest = await client.CreateAccountAuthRequestAsync(
+        var authRequest = await accountService.CreateAccountAuthRequestAsync(
             user.Uuid,
             selectedInstitutionId,
             "client_12345",

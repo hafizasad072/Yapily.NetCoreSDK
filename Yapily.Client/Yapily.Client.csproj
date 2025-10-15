@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Yapily.BO\Yapily.BO.csproj" />
     <ProjectReference Include="..\Yapily.Core.SDK\Yapily.Core.SDK.csproj" />
   </ItemGroup>
 
