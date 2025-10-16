@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Yapily.BO.Models
 {
     public class User
@@ -10,5 +7,11 @@ namespace Yapily.BO.Models
         public DateTime CreatedAt { get; set; }
         public List<object> InstitutionConsents { get; set; }
         public bool VopOptOut { get; set; }
+    }
+    public class UserUpdate
+    {
+        public string Op { get; set; }
+        public string Path { get; set; }
+        public string Value { get; set; }
     }
 }
