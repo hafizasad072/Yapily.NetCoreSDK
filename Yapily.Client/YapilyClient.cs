@@ -1,38 +1,41 @@
 ﻿using System.Web;
 using Yapily.Core.SDK;
-using Yapily.Core.SDK.SDK.Account;
 using Yapily.Core.SDK.SDK.Consent;
 using Yapily.Core.SDK.SDK.Institutions;
-using Yapily.Core.SDK.SDK.Transactions;
 using Yapily.Core.SDK.SDK.Users;
+using Yapily.Core.SDK.SDK.FinancialData;
+using Yapily.Core.SDK.Models.Accounts;
+using Yapily.Core.SDK.Models.Transactions;
+using Yapily.BO.Models;
 
 public class YapilyClient
 {
     public static async Task RunAsync()
     {
         IUserService userService = new UserService();
-        IAccountsService accountService = new AccountsService();
+        IFinancialDataService financialDataService = new FinancialDataService();
         IConsentService consentService = new ConsentService();
         IInstitutionService institutionService = new InstitutionService();
-        ITransactionService transactionService = new TransactionService();
 
         string CALLBACK_URL = YapilyConfig.CallBackURL;
 
         // STEP 1: Create Yapily User (maps to your ERP user)
-        var user = await userService.CreateUserAsync(null);
+        var user = await userService.CreateUserAsync(new UserCreateRequest());
         Console.WriteLine($" Created Yapily User: {user.Uuid}");
 
         // ---------------------------------------------
         // OPTION 1 — Hosted Page (Recommended)
         // ---------------------------------------------
         Console.WriteLine(" Using Hosted Consent Page...");
-        var hostedAuth = await accountService.CreateAccountAuthRequestAsync(
-            userUuid: user.Uuid,
-            institutionId: "modelo-sandbox", // choose one if you already know
-            applicationUserId: null,
-            callbackUrl: CALLBACK_URL,
-            oneTimeToken: false
-        );
+        var hostedAuth = await financialDataService.CreateAccountAuthRequestAsync(
+            new CreateAccountAuthRequest()
+            {
+                UserUuid = user.Uuid,
+                InstitutionId = "modelo-sandbox", // choose one if you already know
+                ApplicationUserId = null,
+                Callback = CALLBACK_URL,
+                OneTimeToken = false
+            });
 
         Console.WriteLine($" Redirect the user to Yapily hosted link:\n{hostedAuth.Data.AuthorisationUrl}");
         Console.WriteLine($"Wait until Yapily redirects user to your CALLBACK with ? consentId = {hostedAuth.Data.Id}");
@@ -66,7 +69,7 @@ public class YapilyClient
         Console.WriteLine($"Extracted consentId: {consentToken}");
 
         // STEP 3: Fetch accounts
-        var accounts = await accountService.GetAccountsAsync(consentToken);
+        var accounts = await financialDataService.GetAccountsAsync(consentToken);
         foreach (var acc in accounts.Data)
         {
             Console.WriteLine($" Account {acc.Id} - {acc.Currency}");
@@ -74,15 +77,18 @@ public class YapilyClient
 
         // STEP 4: Fetch balance & transactions for first account
         var accId = accounts.Data[0].Id;
-        var balances = await accountService.GetAccountBalancesAsync(consentToken, accId);
+        var balances = await financialDataService.GetAccountBalancesAsync(consentToken, accId);
         Console.WriteLine($" Balance: {balances.Data.Balances[0].BalanceAmount.Amount} {balances.Data.Balances[0].BalanceAmount.Currency}");
 
-        var txs = await transactionService.GetTransactionsAsync(
-            consentToken,
-            accId,
-            DateTime.UtcNow.AddDays(-30),
-            DateTime.UtcNow
-        );
+        var txs = await financialDataService.GetTransactionsAsync(
+            new GetTransactionsRequest()
+            {
+                ConsentId = consentToken,
+                AccountId = accId,
+                From = DateTime.UtcNow.AddDays(-30),
+                To = DateTime.UtcNow
+
+            });
 
         foreach (var t in txs.Data)
         {
@@ -93,7 +99,7 @@ public class YapilyClient
         // OPTION 2 — Get institutions list yourself
         // ---------------------------------------------
         Console.WriteLine("\n Listing institutions manually...");
-        var institutions = await institutionService.GetInstitutionsAsync("NL");
+        var institutions = await institutionService.GetInstitutionsAsync();
 
         foreach (var bank in institutions.Data)
         {
@@ -103,13 +109,15 @@ public class YapilyClient
         // then choose one, and create an auth request for it
         string selectedInstitutionId = institutions.Data[0].Id;
 
-        var authRequest = await accountService.CreateAccountAuthRequestAsync(
-            user.Uuid,
-            selectedInstitutionId,
-            "client_12345",
-            CALLBACK_URL,
-            false
-        );
+        var authRequest = await financialDataService.CreateAccountAuthRequestAsync(
+             new CreateAccountAuthRequest()
+             {
+                 UserUuid = user.Uuid,
+                 InstitutionId = selectedInstitutionId,
+                 ApplicationUserId = "client_12345",
+                 Callback = CALLBACK_URL,
+                 OneTimeToken = false
+             });
 
         Console.WriteLine($"Redirect user to: {authRequest.Data.AuthorisationUrl}");
     }

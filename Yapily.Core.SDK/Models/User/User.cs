@@ -8,6 +8,14 @@ namespace Yapily.BO.Models
         public List<object> InstitutionConsents { get; set; }
         public bool VopOptOut { get; set; }
     }
+
+    public class UserCreateRequest
+    {
+        public string? ApplicationUserId { get; set; }
+        public string? ReferenceId { get; set; }
+        public bool? VopOptOut { get; set; }
+    }
+
     public class UserUpdate
     {
         public string Op { get; set; }

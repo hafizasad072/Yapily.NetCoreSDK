@@ -1,0 +1,6 @@
+@YapilyAPI_HostAddress = http://localhost:5178
+
+GET {{YapilyAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -7,12 +7,9 @@ namespace Yapily.Core.SDK.SDK.Institutions
         public InstitutionService(HttpClient httpClient = null)
         : base(httpClient) { }
 
-        public async Task<Institution> GetInstitutionsAsync(string country = null)
+        public async Task<Institution> GetInstitutionsAsync()
         {
             string url = $"{_baseUrl}/institutions";
-
-            if (!string.IsNullOrEmpty(country))
-                url += $"?country={country}";
 
             var req = new HttpRequestMessage(HttpMethod.Get, url);
 

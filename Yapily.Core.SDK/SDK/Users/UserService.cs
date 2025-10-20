@@ -9,10 +9,10 @@ namespace Yapily.Core.SDK.SDK.Users
         public UserService(HttpClient httpClient = null)
         : base(httpClient) { }
 
-        public async Task<User> CreateUserAsync(string applicationUserId)
+        public async Task<User> CreateUserAsync(UserCreateRequest body)
         {
             var url = $"{_baseUrl}/users";
-            var body = new { applicationUserId = applicationUserId };
+
             var req = new HttpRequestMessage(HttpMethod.Post, url)
             {
                 Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
