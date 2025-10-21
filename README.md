@@ -107,7 +107,7 @@ public class YapilyCallbackController : ControllerBase
 
 ---
 
-## Database Model Example
+## View Models Example
 
 | Table                  | Columns                                  | Purpose                      |
 | ---------------------- | ---------------------------------------- | ---------------------------- |
@@ -117,6 +117,102 @@ public class YapilyCallbackController : ControllerBase
 | **YapilyTransactions** | TransactionId, Date, Amount, Description | Stores transactions          |
 
 ---
+
+# YapilyAPI
+
+A RESTful API to manage account, consent, transaction, and institution data in a financial application. This API enables users to interact with financial data through endpoints designed for account creation, user management, institution fetching, and more.
+
+## Overview
+
+- **Version:** 1.0
+- **OpenAPI Spec:** 3.0.4
+- **Base Path:** `/api/`
+
+---
+
+## Endpoints
+
+###  Account
+
+#### `POST /api/Account/POST`
+Initiate a new account connection.
+
+**Query Parameters:**
+- `userUuid` (string) – User identifier
+- `institutionId` (string) – Institution identifier
+- `applicationUserId` (string) – Application user ID
+- `callbackUrl` (string) – URL to redirect after authentication
+- `oneTimeToken` (boolean, default: false) – Use a one-time token
+
+#### `GET /api/Account/GET`
+Retrieve account information based on consent.
+
+**Query Parameters:**
+- `consentId` (string) – Consent identifier
+
+#### `GET /api/Account/AccountBalances`
+Get account balance details.
+
+**Query Parameters:**
+- `consentId` (string) – Consent identifier
+- `accountId` (string) – Account identifier
+
+---
+
+### Consent
+
+#### `POST /api/Consent/GET`
+Retrieve consent details.
+
+**Query Parameters:**
+- `consentId` (string) – Consent identifier
+
+---
+
+### Institutions
+
+#### `POST /api/Institutions/GET`
+Retrieve available institutions by country.
+
+**Query Parameters:**
+- `country` (string) – ISO country code (e.g., `GB`, `DE`)
+
+---
+
+### Transaction
+
+#### `POST /api/Transaction/GET`
+Get transaction data for an account.
+
+**Query Parameters:**
+- `consentId` (string) – Consent identifier
+- `accountId` (string) – Account identifier
+- `from` (date-time) – Start date/time
+- `to` (date-time) – End date/time
+
+---
+
+### Users
+
+#### `POST /api/Users/users/create`
+Create a new user.
+
+**Query Parameters:**
+- `applicationUserId` (string) – Application user ID
+
+---
+
+## Responses
+
+All endpoints return standard HTTP status codes.
+
+- `200 OK` – Request was successful
+
+---
+
+## Getting Started
+
+> This API assumes authentication and consent flows are managed externally.
 
 ## Best Practices
 
